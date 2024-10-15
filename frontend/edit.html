@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Nota - Notas App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <h1>Notes App</h1>
+            <ul>
+                <li><a href="index.html">Todas las Notas</a></li>
+                <li><a href="create.html">Crear Nota</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Editar Nota</h2>
+        <form id="edit-note-form">
+            <div class="form-group">
+                <label for="title">Título:</label>
+                <input type="text" id="title" name="title" required>
+            </div>
+            <div class="form-group">
+                <label for="content">Contenido:</label>
+                <textarea id="content" name="content" required></textarea>
+            </div>
+            <button type="submit">Editar Nota</button>
+        </form>
+    </main>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="app.js"></script>
+    <script>
+        // Function to get note ID from URL
+        function getNoteId() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('id');
+        }
+
+        // Function to fetch note details
+        async function fetchNoteDetails() {
+            const noteId = getNoteId();
+            try {
+                const response = await axios.get(`${API_URL}/${noteId}`);
+                document.getElementById('title').value = response.data.title;
+                document.getElementById('content').value = response.data.content;
+            } catch (error) {
+                console.error('Error fetching note details:', error);
+            }
+        }
+
+        // Function to update note
+        async function updateNote(event) {
+            event.preventDefault();
+            const noteId = getNoteId();
+            const title = document.getElementById('title').value;
+            const content = document.getElementById('content').value;
+
+            try {
+                await axios.post(`${API_URL}/update/${noteId}`, { title, content });
+                window.location.href = 'index.html';
+            } catch (error) {
+                console.error('Error updating note:', error);
+            }
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchNoteDetails();
+            const editNoteForm = document.getElementById('edit-note-form');
+            if (editNoteForm) {
+                editNoteForm.addEventListener('submit', updateNote);
+            }
+        });
+    </script>
+</body>
+</html>
