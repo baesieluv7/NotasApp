@@ -9,7 +9,7 @@
 <body>
     <header>
         <nav>
-            <h1>Notes App</h1>
+            <h1>Notas App</h1>
             <ul>
                 <li><a href="index.html">Todas las Notas</a></li>
                 <li><a href="create.html">Crear Nota</a></li>
@@ -35,13 +35,11 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="app.js"></script>
     <script>
-        // Function to get note ID from URL
         function getNoteId() {
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get('id');
         }
 
-        // Function to fetch note details
         async function fetchNoteDetails() {
             const noteId = getNoteId();
             try {
@@ -53,7 +51,6 @@
             }
         }
 
-        // Function to update note
         async function updateNote(event) {
             event.preventDefault();
             const noteId = getNoteId();
@@ -68,7 +65,6 @@
             }
         }
 
-        // Event listeners
         document.addEventListener('DOMContentLoaded', () => {
             fetchNoteDetails();
             const editNoteForm = document.getElementById('edit-note-form');

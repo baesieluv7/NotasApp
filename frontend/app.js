@@ -48,7 +48,6 @@ async function createNote(event) {
     }
 }
 
-// Function to delete a note
 async function deleteNote(id) {
     if (confirm('¿Quieres borrar esta Nota?')) {
         try {
